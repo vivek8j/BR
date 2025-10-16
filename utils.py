@@ -10,11 +10,11 @@ from constant import BASE
 SCRAPED_LOG_FILE = "scraped_plots.txt"
 CHECKPOINT_FILE = "checkpoint.json"
 
-# --- Human-like delay ---
+
 def human_delay():
     time.sleep(random.uniform(1, 1))  # Adjust if needed
 
-# --- User-Agent and Cookie spoofing ---
+
 def generate_random_cookies():
     return {
         'sessionid': ''.join(random.choices(string.ascii_lowercase + string.digits, k=32)),
@@ -38,7 +38,6 @@ def get_headers():
     headers["Cookie"] = "; ".join(f"{k}={v}" for k, v in cookies.items())
     return headers
 
-# --- Resume / Checkpointing logic ---
 def load_scraped_urls() -> set:
     if not os.path.exists(SCRAPED_LOG_FILE):
         return set()
@@ -67,3 +66,4 @@ def load_checkpoint():
 def clear_checkpoint():
     if os.path.exists(CHECKPOINT_FILE):
         os.remove(CHECKPOINT_FILE)
+
