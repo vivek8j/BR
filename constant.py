@@ -1,7 +1,7 @@
 from datetime import datetime
 
 BASE = "https://www.barratthomes.co.uk"
-
+COMPETITOR_WEB="Barratt Homes"
 START_URL = f"{BASE}/new-homes/"
 
 NOT_AVAILABLE = "NOT_AVAILABLE"
@@ -16,3 +16,4 @@ VALID_ROOM_KEYWORDS = {
 }
 
 PROXIMITY_KEYWORDS_PATTERN = r'\b(mile|minutes|walk|centre|city|near|close|adjacent|proximity|distance|within|walkable|surrounding)'
+
