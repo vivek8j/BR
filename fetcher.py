@@ -1,11 +1,10 @@
 import logging
 import time
 import requests
-# from bs4 import BeautifulSoup
 from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
 from utils import get_headers
 
-# Disable SSL verification warnings (can remove this if using valid certs)
+
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 class FetchFailed(Exception):
@@ -35,3 +34,4 @@ def fetch_soup(url: str, retries: int = 3, backoff: int = 2):
         time.sleep(backoff ** attempt)
 
     raise FetchFailed(f"Failed to fetch {url} after {retries} attempts.")
+
