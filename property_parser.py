@@ -7,9 +7,8 @@ from constant import BASE, NOT_AVAILABLE, PROXIMITY_KEYWORDS_PATTERN
 import logging
 
 
-##good
+
 def extract_properties(location_url: str, region: str) -> Iterator[Tuple[str, str, str]]:
-# def extract_properties(location_url: str, region: str, location: str) -> Iterator[Tuple[str, str, str]]:
     soup = fetch_soup(location_url)
     if not soup:
         return
@@ -34,3 +33,4 @@ def extract_outlet_and_proximity(prop_url: str) -> Tuple[str, str]:
     ]
 
     return outlet, " / ".join(proximities) if proximities else NOT_AVAILABLE
+
