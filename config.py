@@ -1,5 +1,5 @@
 from datetime import datetime
-from constant import NOT_AVAILABLE, RUN_DATE
+from constant import NOT_AVAILABLE, RUN_DATE, COMPETITOR_WEB
 
 OUTPUT_CSV = f"mpi_barratthomes_{RUN_DATE}.csv"
 
@@ -13,9 +13,9 @@ USER_AGENTS = [
 
 def get_base_info():
         return {
-            "COMPANY_NAME": "Barratt Homes",
-            "BRAND_NAME": "Barratt Homes",
-            "SOURCE_SITE":"Barratt Homes",
+            "COMPANY_NAME": COMPETITOR_WEB,
+            "BRAND_NAME": COMPETITOR_WEB,
+            "SOURCE_SITE":COMPETITOR_WEB,
             "OUTLET": NOT_AVAILABLE,
             "REGION": NOT_AVAILABLE,
             "ADDRESS": NOT_AVAILABLE,
@@ -55,3 +55,4 @@ def get_base_info():
         }
 
 columns_order = list(get_base_info().keys())
+
