@@ -15,9 +15,9 @@ def extract_locations(start_url: str) -> Iterator[Tuple[str, str, str]]:
             continue
         full_url = urljoin(BASE, href)
         region,_ = _parse_location_parts(full_url)
-        # region, location = _parse_location_parts(full_url)
+
         yield full_url, region
-        # yield full_url, region, location
+
 
 
 def _parse_location_parts(url: str) -> Tuple[str, str]:
@@ -25,3 +25,4 @@ def _parse_location_parts(url: str) -> Tuple[str, str]:
     if len(parts) >= 3:
         return parts[1].replace('-', ' ').title(), parts[2].replace('-', ' ').title()
     return NOT_AVAILABLE, NOT_AVAILABLE
+
