@@ -14,7 +14,7 @@ def lookup_postcode_data(postcode: str) -> dict:
     postcode = postcode.strip().upper()
     if not postcode or postcode == "NOT_AVAILABLE":
         return {
-            # "county": "NOT_AVAILABLE",
+
             "city": "NOT_AVAILABLE",
             "latitude": "NOT_AVAILABLE",
             "longitude": "NOT_AVAILABLE",
@@ -32,7 +32,6 @@ def lookup_postcode_data(postcode: str) -> dict:
         r = requests.get(url, timeout=5, verify=False)
         if r.status_code == 200:
             data = r.json().get("result", {})
-            # county = data.get("admin_county") or "NOT_AVAILABLE"
             city = data.get("admin_district") or data.get("nuts") or "NOT_AVAILABLE"
             latitude = data.get("latitude") or "NOT_AVAILABLE"
             longitude = data.get("longitude") or "NOT_AVAILABLE"
@@ -41,14 +40,12 @@ def lookup_postcode_data(postcode: str) -> dict:
         else:
             logging.warning(f"Postcode API returned {r.status_code} for {postcode}")
             city = latitude = longitude = area = subarea = "NOT_AVAILABLE"
-            # county = city = latitude = longitude = area = subarea = "NOT_AVAILABLE"
     except Exception as e:
         logging.warning(f"Postcode API error for {postcode}: {e}")
         city = latitude = longitude = area = subarea = "NOT_AVAILABLE"
-        # county = city = latitude = longitude = area = subarea = "NOT_AVAILABLE"
 
     result = {
-        # "county": county,
+     
         "city": city,
         "latitude": latitude,
         "longitude": longitude,
@@ -60,7 +57,6 @@ def lookup_postcode_data(postcode: str) -> dict:
 
 
 def extract_plots(property_url: str, region: str) -> List[Tuple[str, str, str, str]]:
-# def extract_plots(property_url: str, region: str, location: str) -> List[Tuple[str, str, str, str]]:
     soup = fetch_soup(property_url)
     if not soup:
         return []
@@ -90,19 +86,16 @@ def extract_plots(property_url: str, region: str) -> List[Tuple[str, str, str, s
 
         scheme_offer = " / ".join(scheme_messages) if scheme_messages else NOT_AVAILABLE
         plots.append((plot_url, region, scheme_offer))
-        # plots.append((plot_url, region, location, scheme_offer))
 
     return plots
 
 
 def parse_plot_data(plot_url: str, region: str, outlet: str, scheme_offer: str, proximity: str) -> Optional[Dict]:
-# def parse_plot_data(plot_url: str, region: str, location: str, outlet: str, scheme_offer: str, proximity: str) -> Optional[Dict]:
     soup = fetch_soup(plot_url)
     if not soup:
         return None
 
     info = _get_base_info(region, outlet, scheme_offer, proximity, plot_url)
-    # info = _get_base_info(region, location, outlet, scheme_offer, proximity, plot_url)
 
     header = soup.select_one('.marketing-header')
     if not header:
@@ -123,7 +116,6 @@ def parse_plot_data(plot_url: str, region: str, outlet: str, scheme_offer: str, 
     info['ADDRESS'] = address
     info['POSTCODE'] = postcode
 
-    # Attempt to extract LOCATION and COUNTY from the address
     address_parts = [part.strip() for part in address.split(',') if part.strip()]
 
     if len(address_parts) >= 3:
@@ -133,7 +125,6 @@ def parse_plot_data(plot_url: str, region: str, outlet: str, scheme_offer: str, 
         info['LOCATION'] = NOT_AVAILABLE
         info['COUNTY'] = NOT_AVAILABLE
 
-    # Still use postcode API for CITY, LAT/LONG
     postcode_data = lookup_postcode_data(postcode)
     info['CITY'] = postcode_data['city']
     info['LATITUDE'] = postcode_data['latitude']
@@ -184,7 +175,6 @@ def parse_plot_data(plot_url: str, region: str, outlet: str, scheme_offer: str, 
 
 
 def _get_base_info(region, outlet, scheme_offer, proximity, url) -> Dict:
-# def _get_base_info(region, location, outlet, scheme_offer, proximity, url) -> Dict:
     from config import get_base_info
     info = get_base_info()
     info.update({
@@ -250,3 +240,4 @@ def _count_keyword_occurrences(dimensions: List[str], keywords: set) -> int:
 def _extract_features(soup: BeautifulSoup) -> str:
     features = [el.get_text(strip=True) for el in soup.select('.l-icons__icon-title')]
     return " / ".join(features) if features else NOT_AVAILABLE
+
